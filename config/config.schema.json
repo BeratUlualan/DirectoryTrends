@@ -39,9 +39,14 @@
             "type": "string"
           }
         },
+          "bucket_name": {
+            "type": "string"
+          }
+        },
         "required": [
           "address",
-          "token"
+          "token",
+          "bucket_name"
         ]
       },
       "email": {
