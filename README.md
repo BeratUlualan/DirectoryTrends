@@ -269,6 +269,7 @@ Enter a name for your cell in the upper left.
 
 Click the __checkmark icon__ to save the cell to your dashboard.
 
+<img src="images/checkmark.png" width="256"/>
 
 ## Help
 
