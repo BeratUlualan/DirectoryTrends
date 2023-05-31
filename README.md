@@ -238,7 +238,36 @@ Add the below lines
 You can change time and period according your needs.
 
 ### Create a InfluxDB Dashboard
+__Step 1.__ Open a browser and go to __http://your-IP-address:8086__ 
 
+__Step 2.__ Login with user that you defined previously.
+
+<img src="images/login.png" width="256"/>
+
+__Step 2.__ Create a new dashboard
+In the navigation menu on the left, select __Dashboards__.
+
+<img src="images/select_dashboard.png" width="512"/>
+
+Click the  Create Dashboard menu in the upper right and select New Dashboard.
+
+<img src="images/create_dashboard.png" width="512"/>
+
+Enter a name for your dashboard in the Name this dashboard field in the upper left.
+
+__Step 3.__ Add Cell
+From your dashboard, click  Add Cell.
+
+<img src="images/add_cell.png" width="512"/>
+
+__Step 4.__ Create a query
+Create a query in the Data Explorer following the instructions in Explore metrics.
+
+<img src="images/define_query.png" width="768"/>
+
+Enter a name for your cell in the upper left.
+
+Click the __checkmark icon__ to save the cell to your dashboard.
 
 
 ## Help
