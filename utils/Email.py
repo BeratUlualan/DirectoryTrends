@@ -165,7 +165,7 @@ class Email(object):
         # It is possible that we are talking to an email relay. In some cases, those
         # are owned by organizations that only allow email from within the organization.
         # In that case, they may not require a login/password combination
-        self.logger.info(f"{login}")
+        self.logger.info(f"SMTP connection is established with {login}")
         if login != "":
             if self.logger is not None:
                 self.logger.debug("Logging into SMTP server")
