@@ -56,7 +56,7 @@ logger = Logger()
 
 CONFIG_FILE_PATH = "./config/config.json"
 
-def write_data_points(write_api, path, capacity, data, metadata, dir_count, file_count, current_time):
+def write_data_points(config, write_api, path, capacity, data, metadata, dir_count, file_count, current_time):
     data_points = [
         Point("CapacityDetails")
         .tag("path", path)
@@ -79,7 +79,7 @@ def write_data_points(write_api, path, capacity, data, metadata, dir_count, file
         .field("file_count", file_count)
         .time(time=current_time)
     ]
-    write_api.write(bucket="qumulo", record=data_points)
+    write_api.write(bucket=config["influxdb"]["bucket_name"], record=data_points)
 
 def check_capacity(args, rc):
     
@@ -111,7 +111,7 @@ def check_capacity(args, rc):
             dir_count = int(top_dir_aggregates["total_directories"])
             
             # Write the data point to InfluxDB
-            write_data_points(write_api, path, capacity, data, metadata, dir_count, file_count, current_time)
+            write_data_points(config, write_api, path, capacity, data, metadata, dir_count, file_count, current_time)
             
             
             if config["directories"]["max_depth"] != 0:
@@ -125,7 +125,7 @@ def check_capacity(args, rc):
                         dir_count = int(file["num_directories"])
 
                         # Write the data point to InfluxDB
-                        write_data_points(write_api, path, capacity, data, metadata, dir_count, file_count, current_time)
+                        write_data_points(config, write_api, path, capacity, data, metadata, dir_count, file_count, current_time)
 
             # Close the write API and InfluxDB client
     write_api.close()
