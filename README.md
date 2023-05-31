@@ -186,6 +186,61 @@ Outputs:
 2023-05-31 11:42:43,191 | DirectoryTrends | INFO | SMTP connection is established 
 ````
 
+### Crontab Settings
+#### Understand Cron Job Syntax
+Every Cron task is written in a Cron expression that consists of two parts: the time schedule and the command to be executed. While the command can be virtually any command that you would normally execute in your command-line environment, writing a proper time schedule requires some practice.
+
+The Cron task syntax consists of 6 arguments separated by spaces. First 5 arguments describe the execution time, while the last argument is a command or a full path to a shell script that is going to be executed by the default shell:
+
+[minute] [hour] [day of month] [month] [day of week] [command]
+
+Commands are executed by Cron when the minute, hour and month fields match the current time, and when at least one of the day fields – either day of month, or day of week – match the current time. The allowed values are these:
+
+__Field	Allowed values__
+* __minute__	0-59
+* __hour__	0-23
+* __day__ of month	1-31
+* __month__	1-12 (or names: JAN - DEC)
+* __day of week__	0-6 (or names: SUN - SAT)
+
+There are also some special characters that you can use to further specify the execution time:
+
+* __Asterisk__	An asterisk represents every allowed value (first to last).	* (run every hour, month, etc.)
+* __Range__	A range consists of two numbers separated by a hyphen.	0-5 (run from 0th to 5th hour, month, etc.)
+* __List__	A list is a set of numbers or ranges separated by commas.	0,1,2,3,4,5 (run from 0th to 5th hour, month, etc.)
+* __Step__	A step is used in conjunction with ranges or asterisks.	*/2 (run every second hour, month, etc.)
+* __Name__	A name can be used with month or day of week fields. Names are case insensitive.	Jan, Feb, Mar (run every January, February, and March)
+* __Special__ string	A special string can be used instead of the first five arguments.	@reboot, @weekly (run every time at startup, and once a week)
+
+You may play with execution time targeting rules by using the crontab.guru website which is a great place to deepen your understanding and double check whether you defined the execution time right.
+
+__Step 1.__ Installing cron
+Most often Cron is installed to your Ubuntu machine by default. In case it is not there, you may install it yourself.
+
+Update your system’s local package list:
+```
+sudo apt update
+```
+And install the newest version of cron. The following command also updates Cron to the latest version, if you already have it installed:
+```
+sudo apt install cron
+```
+__Step 2.__ Setting Cron Jobs for Directory Trends.
+```
+sudo vim /etc/crontab
+```
+Add the below lines
+```
+00 01 * * * root cd /opt/qumulo/Directory/Trends; /usr/bin/python3 InfluxDBPush.py --config-file config/config.json 
+00 01 * * * root cd /opt/qumulo/Directory/Trends; /usr/bin/python3 EmailPush.py --config-file config/config.json 
+```
+
+You can change time and period according your needs.
+
+### Create a InfluxDB Dashboard
+
+
+
 ## Help
 
 To post feedback, submit feature ideas, or report bugs, use the [Issues](https://github.com/BeratUlualan/DirectoryTrends/issues) section of this GitHub repo.
