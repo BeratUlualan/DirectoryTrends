@@ -1,0 +1,5 @@
+qumulo-api==6.1.0
+jmespath
+dominate
+jsonschema
+influxdb_client
