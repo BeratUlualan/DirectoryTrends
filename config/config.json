@@ -8,7 +8,8 @@
 	},
     "influxdb" : {
         "address" : "INFLUXDB ADRESS",
-        "token" : "INFLUXDB_TOKEN"
+        "token" : "INFLUXDB_TOKEN",
+	"bucket_name" : "BUCKET_NAME"
     },
     "email":{
         "from": "from@mail.com",
