@@ -92,7 +92,7 @@ def check_capacity(args, rc):
         client = InfluxDBClient(
             url=f"http://{influxdb_address}:8086",
             token=config["influxdb"]["token"],
-            org=config["influxdb"]["token"],
+            org=config["influxdb"]["org_name"],
         )
         
         # Create a write API instance
