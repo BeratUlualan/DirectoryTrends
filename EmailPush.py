@@ -60,9 +60,9 @@ def check_capacity(args, rc):
         dir_capacity_usages = []
         
         for directory in directories:
-            usages = {}
             dir_aggregates = rc.fs.read_dir_aggregates(path=directory, max_depth=config["directories"]["max_depth"], recursive=True)
             for dir_aggregate in dir_aggregates:
+                usages = {}
                 path = rc.fs.get_file_attr(path=directory)["path"]
                 usages["data"] = round(int(dir_aggregate["total_data"]) / 10 ** 9, 2)
                 usages["metadata"] = round(int(dir_aggregate["total_meta"]) / 10 ** 9, 2)
