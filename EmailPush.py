@@ -61,22 +61,13 @@ def check_capacity(args, rc):
         
         for directory in directories:
             usages = {}
-            top_dir_aggregates = rc.fs.read_dir_aggregates(path=directory)
-            path = rc.fs.get_file_attr(path=directory)["path"]
-            usages["data"] = round(int(top_dir_aggregates["total_data"]) / 10 ** 9, 2)
-            usages["metadata"] = round(int(top_dir_aggregates["total_meta"]) / 10 ** 9, 2)
-            usages["directory"] = path
-            dir_capacity_usages.append(usages) 
-            
-            if config["directories"]["max_depth"] != 0:
-                for file in top_dir_aggregates["files"]:
-                    if file["type"] == "FS_FILE_TYPE_DIRECTORY":
-                        usages = {}
-                        path = rc.fs.get_file_attr(id_=file["id"])["path"]
-                        usages["data"] = round(int(file["data_usage"]) / 10 ** 9, 2)
-                        usages["metadata"] = round(int(file["meta_usage"]) / 10 ** 9, 2)
-                        usages["directory"] = path
-                        dir_capacity_usages.append(usages) 
+            dir_aggregates = rc.fs.read_dir_aggregates(path=directory, max_depth=config["directories"]["max_depth"], recursive=True)
+            for dir_aggregate in dir_aggregates:
+                path = rc.fs.get_file_attr(path=directory)["path"]
+                usages["data"] = round(int(dir_aggregate["total_data"]) / 10 ** 9, 2)
+                usages["metadata"] = round(int(dir_aggregate["total_meta"]) / 10 ** 9, 2)
+                usages["directory"] = path
+                dir_capacity_usages.append(usages) 
     
     with open("./config/previous_dir_usages.json", "r") as previousUsages:
         previous_dir_usages = json.load(previousUsages)
