@@ -54,8 +54,6 @@ progvers = "6.1.0"
 
 logger = Logger()
 
-CONFIG_FILE_PATH = "./config/config.json"
-
 def write_data_points(config, write_api, path, capacity, data, metadata, dir_count, file_count, current_time):
     data_points = [
         Point("CapacityDetails")
@@ -82,6 +80,7 @@ def write_data_points(config, write_api, path, capacity, data, metadata, dir_cou
     write_api.write(bucket=config["influxdb"]["bucket_name"], record=data_points)
 
 def check_capacity(args, rc):
+    CONFIG_FILE_PATH = args.config_file
     
     with open(CONFIG_FILE_PATH, "r") as configFile:
         config = json.load(configFile)
