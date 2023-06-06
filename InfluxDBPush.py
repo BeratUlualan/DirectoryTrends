@@ -101,32 +101,19 @@ def check_capacity(args, rc):
         
         for directory in directories:
             usages = {}
-            top_dir_aggregates = rc.fs.read_dir_aggregates(path=directory)
-            path = rc.fs.get_file_attr(path=directory)["path"]
-            capacity = int(top_dir_aggregates["total_capacity"])
-            data = int(top_dir_aggregates["total_data"])
-            metadata = int(top_dir_aggregates["total_meta"])
-            file_count = int(top_dir_aggregates["total_files"])
-            dir_count = int(top_dir_aggregates["total_directories"])
+            dir_aggregates = rc.fs.read_dir_aggregates(path=directory, max_depth=config["directories"]["max_depth"], recursive=True)
+            for dir_aggregate in dir_aggregates:
+                for path = rc.fs.get_file_attr(path=directory)["path"]
+                capacity = int(dir_aggregates["total_capacity"])
+                data = int(dir_aggregates["total_data"])
+                metadata = int(dir_aggregates["total_meta"])
+                file_count = int(dir_aggregates["total_files"])
+                dir_count = int(dir_aggregates["total_directories"])
             
             # Write the data point to InfluxDB
             write_data_points(config, write_api, path, capacity, data, metadata, dir_count, file_count, current_time)
-            
-            
-            if config["directories"]["max_depth"] != 0:
-                for file in top_dir_aggregates["files"]:
-                    if file["type"] == "FS_FILE_TYPE_DIRECTORY":
-                        path = rc.fs.get_file_attr(id_=file["id"])["path"]
-                        capacity = int(file["capacity_usage"])
-                        data = int(file["data_usage"])
-                        metadata = int(file["meta_usage"])
-                        file_count = int(file["num_files"])
-                        dir_count = int(file["num_directories"])
 
-                        # Write the data point to InfluxDB
-                        write_data_points(config, write_api, path, capacity, data, metadata, dir_count, file_count, current_time)
-
-            # Close the write API and InfluxDB client
+    # Close the write API and InfluxDB client
     write_api.close()
     client.close()
 
