@@ -52,9 +52,8 @@ progvers = "6.1.0"
 
 logger = Logger()
 
-CONFIG_FILE_PATH = "./config/config.json"
-
 def check_capacity(args, rc):
+    CONFIG_FILE_PATH = args.config_file
     with open(CONFIG_FILE_PATH, "r") as configFile:
         config = json.load(configFile)
         directories = config["directories"]["dir_paths"]
