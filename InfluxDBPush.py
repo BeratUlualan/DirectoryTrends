@@ -100,15 +100,15 @@ def check_capacity(args, rc):
         current_time = datetime.datetime.utcnow()
         
         for directory in directories:
-            usages = {}
             dir_aggregates = rc.fs.read_dir_aggregates(path=directory, max_depth=config["directories"]["max_depth"], recursive=True)
             for dir_aggregate in dir_aggregates:
-                for path = rc.fs.get_file_attr(path=directory)["path"]
-                capacity = int(dir_aggregates["total_capacity"])
-                data = int(dir_aggregates["total_data"])
-                metadata = int(dir_aggregates["total_meta"])
-                file_count = int(dir_aggregates["total_files"])
-                dir_count = int(dir_aggregates["total_directories"])
+                usages = {}
+                path = dir_aggregate["path"]
+                capacity = int(dir_aggregate["total_capacity"])
+                data = int(dir_aggregate["total_data"])
+                metadata = int(dir_aggregate["total_meta"])
+                file_count = int(dir_aggregate["total_files"])
+                dir_count = int(dir_aggregate["total_directories"])
             
             # Write the data point to InfluxDB
             write_data_points(config, write_api, path, capacity, data, metadata, dir_count, file_count, current_time)
